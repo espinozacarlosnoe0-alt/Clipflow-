@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: clipflow
+      POSTGRES_PASSWORD: clipflow123
+      POSTGRES_DB: clipflow
+  mongodb:
+    image: mongo:7
+  redis:
+    image: redis:7
+  backend:
+    image: node:20
+    working_dir: /app
+    command: sh -c "npm install && npm run start"
+    environment:
+      NODE_ENV: production
+      JWT_SECRET: clipflow_secreto_2026
+      DB_HOST: postgres
+      DB_USER: clipflow
+      DB_PASSWORD: clipflow123
+      DB_NAME: clipflow
+      MONGO_URI: mongodb://mongodb:27017/clipflow
+      REDIS_URL: redis://redis:6379
+    ports: ["3000:3000"]
